@@ -1,6 +1,3 @@
-const mongoose = require("mongoose");
-const { ValidationError } = require("express-validation");
-
 const EventsModel = require("../../models/events");
 const BookingsModel = require("../../models/bookings");
 
