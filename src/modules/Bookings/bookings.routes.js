@@ -6,6 +6,7 @@ const router = Router();
 
 router.get("/", controller.getAll);
 router.get("/:id", validation.getOne, controller.getOne);
+router.get("/event/:id", validation.getOne, controller.getAllByEvent);
 router.post("/", validation.create, controller.create);
 router.delete("/:id", validation.delete, controller.delete);
 

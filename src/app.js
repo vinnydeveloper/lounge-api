@@ -1,9 +1,9 @@
 const express = require("express");
 const routes = require("./routes");
 const cors = require("cors");
-const handleError = require("./middlewares/handleError");
 
 const db = require("./database");
+const { ValidationError } = require("express-validation");
 
 const app = express();
 
@@ -13,6 +13,12 @@ app.use(cors());
 app.use(express.json());
 
 app.use(routes);
-app.use(handleError);
+app.use(function (err, req, res) {
+  if (err instanceof ValidationError) {
+    return res.status(err.statusCode).json(err);
+  }
+
+  return res.status(500).json(err);
+});
 
 module.exports = app;

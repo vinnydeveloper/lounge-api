@@ -60,6 +60,21 @@ module.exports = {
       return next(error);
     }
   },
+  async getAllByEvent(req, res, next) {
+    try {
+      const { id } = req.params;
+      const bookings = await BookingsModel.find().populate({
+        path: "event",
+        match: {
+          _id: id,
+        },
+      });
+
+      return res.json(bookings);
+    } catch (error) {
+      return next(error);
+    }
+  },
   async getAll(req, res, next) {
     try {
       const bookings = await BookingsModel.find().populate("event");
