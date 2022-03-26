@@ -52,7 +52,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const booking = await BookingsModel.findOne({ _id: id }).populate(
-        "events"
+        "event"
       );
 
       return res.json(booking);
