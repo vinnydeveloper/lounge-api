@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const EventsModel = require("../../models/events");
 
 module.exports = {
@@ -21,7 +19,7 @@ module.exports = {
           new: true,
         }
       );
-      return res.json(200).json(eventUpdated);
+      return res.status(200).json(eventUpdated);
     } catch (error) {
       return next(error);
     }
@@ -29,7 +27,8 @@ module.exports = {
   async delete(req, res, next) {
     try {
       const { id } = req.params;
-      const newEvent = await EventsModel.deleteOne({ _id: id });
+
+      await EventsModel.deleteOne({ _id: id });
 
       return res.sendStatus(204);
     } catch (error) {
