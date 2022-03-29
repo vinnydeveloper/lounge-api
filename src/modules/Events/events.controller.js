@@ -48,7 +48,7 @@ module.exports = {
   },
   async getAll(req, res, next) {
     try {
-      const events = await EventsModel.find();
+      const events = await EventsModel.find().sort({ updated_at: -1 });
 
       return res.json(events);
     } catch (error) {
