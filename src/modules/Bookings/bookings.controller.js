@@ -1,4 +1,5 @@
 const EventsModel = require("../../models/events");
+const { Types } = require("mongoose");
 const BookingsModel = require("../../models/bookings");
 
 module.exports = {
@@ -63,12 +64,26 @@ module.exports = {
   async getAllByEvent(req, res, next) {
     try {
       const { id } = req.params;
-      const bookings = await BookingsModel.find().populate({
-        path: "event",
-        match: {
-          _id: id,
+      const bookings = await BookingsModel.aggregate([
+        {
+          $lookup: {
+            from: "events",
+            localField: "event",
+            foreignField: "_id",
+            as: "event",
+          },
         },
-      });
+        {
+          $unwind: {
+            path: "$event",
+          },
+        },
+        {
+          $match: {
+            "event._id": Types.ObjectId(id),
+          },
+        },
+      ]);
 
       return res.json(bookings);
     } catch (error) {
