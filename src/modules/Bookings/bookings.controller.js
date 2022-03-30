@@ -63,7 +63,7 @@ module.exports = {
   },
   async getAllByEvent(req, res, next) {
     try {
-      const { id } = req.params;
+      const { eventID } = req.params;
       const bookings = await BookingsModel.aggregate([
         {
           $lookup: {
@@ -80,7 +80,13 @@ module.exports = {
         },
         {
           $match: {
-            "event._id": Types.ObjectId(id),
+            "event._id": Types.ObjectId(eventID),
+          },
+        },
+
+        {
+          $sort: {
+            updated_at: -1,
           },
         },
       ]);
@@ -92,7 +98,9 @@ module.exports = {
   },
   async getAll(req, res, next) {
     try {
-      const bookings = await BookingsModel.find().populate("event");
+      const bookings = await BookingsModel.find()
+        .populate("event")
+        .sort({ updated_at: -1 });
 
       return res.json(bookings);
     } catch (error) {

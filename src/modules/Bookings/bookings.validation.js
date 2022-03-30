@@ -20,4 +20,9 @@ module.exports = {
       id: Joi.string().length(24).required(),
     }),
   }),
+  getAllByEvent: validate({
+    params: Joi.object({
+      eventID: Joi.string().length(24).required(),
+    }),
+  }),
 };
