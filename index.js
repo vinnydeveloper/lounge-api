@@ -1,5 +1,4 @@
-const app = require("./src/app");
-
-app.listen(process.env.PORT || 3000, () =>
-  console.log("Servidor rodando na porta 3000")
-);
+const app = require('./src/app')
+const serverless = require("serverless-http");
+module.exports = app;
+module.exports.handler = serverless(app);
